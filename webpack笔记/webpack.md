@@ -1,6 +1,6 @@
 # webpack小记
 
-## enrty
+## [enrty](https://www.webpackjs.com/configuration/entry-context/)
 
 ```
 entry:{
@@ -31,7 +31,7 @@ plugins: [
 * 2 name可对应entry的key值进行通用chunk打包
 * 3 names是排序执行
 
-## codeSplit 代码分割
+## [codeSplit 代码分割](https://www.webpackjs.com/guides/code-splitting/)
 > 常用场景
 * 分离业务代码 & 第三方依赖
 * 分离业务代码 & 业务公共代码 & 第三方依赖
@@ -52,4 +52,4 @@ plugins: [
 * import同步引入
 * /* webpackChunkName: 'chunkName' */使用魔法注释,为分割代码chunk命名
 
-## lazyLoade 懒加载
+## [lazyLoade 懒加载](https://www.webpackjs.com/guides/lazy-loading/)

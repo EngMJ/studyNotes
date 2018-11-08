@@ -9,7 +9,7 @@ entry:{
 }
 ```
 ##   optimizi
-> commonChunkPlugins
+> [commonChunkPlugins](https://www.webpackjs.com/plugins/commons-chunk-plugin/)
 
 ```
 plugins: [
@@ -37,6 +37,19 @@ plugins: [
 * 分离业务代码 & 业务公共代码 & 第三方依赖
 * 分离首次加载 & 访问后加载的代码
 ```
-    // 没看懂,下次继续看
+    var page = 'pageA'
+    if (page === 'pageA') {
+      import(/* webpackChunkName: 'pageA' */'./pageA').then((pageA) => {
+        console.log(pageA)
+      })
+    } else if (page === 'pageB') {
+      import(/* webpackChunkName: 'pageB' */'./pageB').then((pageB) => {
+        console.log(pageB)
+      })
+    }
 ```
+**注意**
+* import同步引入
+* /* webpackChunkName: 'chunkName' */使用魔法注释,为分割代码chunk命名
+
 ## lazyLoade 懒加载

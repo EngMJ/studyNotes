@@ -32,14 +32,17 @@ plugins: [
 * 2 name可对应entry的key值进行通用chunk打包
 * 3 names是排序执行
 
-## codeSplit 代码分割
+## codeSplit(代码分割) & lazyLoade(懒加载)
 > [codeSplit](https://www.webpackjs.com/guides/code-splitting/)
+
+> [lazyLoade](https://www.webpackjs.com/guides/lazy-loading/)
 
 **常用场景**
 * 分离业务代码 & 第三方依赖
 * 分离业务代码 & 业务公共代码 & 第三方依赖
 * 分离首次加载 & 访问后加载的代码
 ```
+    // xxxx.js
     var page = 'pageA'
     if (page === 'pageA') {
       import(/* webpackChunkName: 'pageA' */'./pageA').then((pageA) => {
@@ -50,12 +53,40 @@ plugins: [
         console.log(pageB)
       })
     }
+
+    // webpack.config.js
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            async: 'async-common', // 异步通用包名称&并开启异步加载
+            children: true, // 查询子依赖
+            minChunks: 2
+        }),
+
+        new webpack.optimize.CommonsChunkPlugin({
+            names: ['vendor', 'manifest'], //
+            minChunks: infinity //
+        })
+    ]
 ```
 **注意**
 * import同步引入
 * /* webpackChunkName: 'chunkName' */使用魔法注释,为分割代码chunk命名
 
-## lazyLoade
-> [lazyLoade](https://www.webpackjs.com/guides/lazy-loading/)
+## CSS处理
+> loader
+**style-loader**
+* 作用: 创建style标签,并载入打包的CSS
+```
+// webpack.config.js
 
-**注意点**
+```
+**css-loader**
+* 包装css文件,能import样式文件到JS中
+```
+
+```
+
+> plugins
+```
+
+```

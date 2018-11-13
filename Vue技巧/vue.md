@@ -1,7 +1,7 @@
 ## Vue.js
-> Vue-API
+#### Vue-API
 
-**hooks**
+> Hooks
 * 声明式
 ```
 // 声明式
@@ -44,4 +44,67 @@ export default {
    }
 </script>
 
+```
+
+> Mixins
+* 场景:复用props/methods等情况
+```
+// paging-mixin.vue
+export default {
+  props: {
+    pageSize: 1,
+    pageLength: 10,
+    currentPage: 1
+    total: 20
+  },
+  methods: {
+    /**
+     * 上一页
+     */
+    prevPage (page) {
+      ...
+    },
+    /**
+     * 下一页
+     */
+    nextPage (page) {
+      ...
+    }
+    /**
+     * 跳转到当前页
+     */
+    currentPage (page) {
+      ...
+    }
+  }
+}
+```
+```
+<template>
+  <div class="user-model">
+    <my-table :data="users"></my-table>
+    <my-paging
+      :page-length="pageLength"
+      :page-size="pageSize"
+      :current-page="currentPage"
+      :total="total">
+    </my-paging>
+  </div>
+</template>
+
+<script>
+  import PagingMixin from '../mixins/paging-mixin.vue'
+  export default {
+    mixins: [PagingMixin],
+    data () {
+      return {
+        users: [],
+        pageLength: 10,
+        pageSize: 1,
+        currentPage: 1,
+        total: 20
+      }
+    }
+  }
+</script>
 ```

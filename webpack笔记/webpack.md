@@ -9,6 +9,19 @@ entry:{
     'vendor': ['lodash']
 }
 ```
+
+## output
+> [output](https://www.webpackjs.com/configuration/output/)
+```
+let path = require('path')
+// ...
+output: {
+    path: path.resolve(__dirname, 'dist'), // 输出打包文件路径
+    publicPath: './dist/', // 打包完成后,文件引用路径
+    filename: '[name].bundle.js' // 打包文件名
+}
+```
+
 ## optimizi
 > [commonChunkPlugins](https://www.webpackjs.com/plugins/commons-chunk-plugin/)
 
@@ -73,17 +86,93 @@ plugins: [
 * /* webpackChunkName: 'chunkName' */使用魔法注释,为分割代码chunk命名
 
 ## CSS处理
-> loader
+> **loader**
+* 单个loader的use执行顺序: 倒序执行
+
+**css-loader**
+* 作用: 包装css文件,能import样式文件到JS中
+
 **style-loader**
 * 作用: 创建style标签,并载入打包的CSS
 ```
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                        options: {
+                            isnerInto: ''
+                        }
+                    },
+                    {
+                        loader: 'file-loader'
+                    }
+                ]
+            }
+        ]
+    }
+```
+
+**style-loader/url**
+* 作用: 配合file-loader实现css文件的link标签引用
+* 注意: 多个css,则会出现多个link标签
+```
+    module: {
+        rules: [
+            {
+                test: /\.css$/,
+                use: [
+                    {
+                        loader: 'style-loader/url'
+                    },
+                    {
+                        loader: 'file-loader'
+                    }
+                ]
+            }
+        ]
+    }
+```
+
+**file-loader**
+* 作用: 读取文件
+
+```
+    // 具体作用未知
+```
+
+**style-loader/useable**
+* 作用: 可通过JS控制css样式的应用开关
+```
+// app.js
+import base from './style/base.css'
+const useControl = true
+if (useControl) {
+    base.use() // 应用base.css样式
+} else {
+    base.unuse() // 移除base.css样式
+}
+```
+
+```
 // webpack.config.js
-
-
-```
-**css-loader**
-* 包装css文件,能import样式文件到JS中
-```
+module: {
+    rules: [
+        {
+            test: /\.css$/,
+            use: [
+                {
+                    loader: 'style-loader/useable'
+                },
+                {
+                    loader: 'file-loader'
+                }
+            ]
+        }
+    ]
+}
 
 ```
 

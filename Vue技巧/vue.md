@@ -108,3 +108,14 @@ export default {
   }
 </script>
 ```
+
+> v-once
+* 场景: 静态数据缓存
+```
+<template>
+  <div class="box" v-once>
+    <h2> 用户协议 </h2>
+    ... a lot of static content ...
+  </div>
+</template>
+```

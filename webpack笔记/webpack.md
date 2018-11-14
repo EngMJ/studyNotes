@@ -95,6 +95,7 @@ plugins: [
 **style-loader**
 * 作用: 创建style标签,并载入打包的CSS
 ```
+    // webpack.config.js
     module: {
         rules: [
             {
@@ -103,7 +104,9 @@ plugins: [
                     {
                         loader: 'style-loader',
                         options: {
-                            isnerInto: ''
+                            insertInto: '#app', // 插入到页面对应query条件的DOM中
+                            singleton: true, // 是否只打包成单个style标签
+                            transform: './css.tranform.js' // 对应js文件路径
                         }
                     },
                     {
@@ -114,6 +117,20 @@ plugins: [
         ]
     }
 ```
+
+```
+// css.transform.js
+/*
+* @prams
+   css 代表正在处理的css文本
+**/
+module.exports = function (css) {
+    // 可获取window对象,进行对应处理
+    return css
+}
+```
+* 作用: 获取当前浏览器或其他状态信息,对css进行处理
+* 注意: 需使用CMD风格输出
 
 **style-loader/url**
 * 作用: 配合file-loader实现css文件的link标签引用

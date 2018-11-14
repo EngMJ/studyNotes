@@ -153,13 +153,6 @@ module.exports = function (css) {
     }
 ```
 
-**file-loader**
-* 作用: 读取文件
-
-```
-    // 具体作用未知
-```
-
 **style-loader/useable**
 * 作用: 可通过JS控制css样式的应用开关
 ```
@@ -191,6 +184,16 @@ module: {
     ]
 }
 
+```
+
+## 文件处理
+> 图片处理
+
+**file-loader**
+* 作用: 读取文件
+
+```
+    // 具体作用未知
 ```
 
 > plugins

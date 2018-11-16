@@ -193,13 +193,21 @@ module: {
 * 作用: 读取文件
 
 ```
+
 ```
 
 **url-loader**
-* 作用:
+* 作用: 压缩base64
 
 ```
-
+// webpack.config.js
+module:{
+    rules:[
+        {
+            loader: ''
+        }
+    ]
+}
 ```
 
 > plugins

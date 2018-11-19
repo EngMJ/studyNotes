@@ -304,7 +304,89 @@ module: {
 }
 ```
 
-> plugins
+> 字体文件
+
+* 注意: 字体文件压缩进css文件中,需先将字体文件下载至本地
+
+```
+// webpack.config.js
+module: {
+    rules: [
+        {
+            test: /\.(eot|woff2?|ttf|svg)$/,
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {
+                        name: '[name]-[hash:5].[ext]',
+                        limit: 100000 // 小于10KB则进行转化
+                        publicPath: '', // 绝对路径
+                        outputPath: 'dist/', // 输出路径
+                        useRelativePath: true // 使用相对路径
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+```
+
+> 第三方JS库
+
+* 作用: 通用模块无需每次都进行引用
+
+**loader**
+* import-loader
+```
+// webpack.config.js
+module: {
+    rules: [
+        {
+            test: path.resolve(__dirname, 'src/app.js'), // 明确使用的全局模块
+            use: [
+                {
+                    loader: 'import-loader',
+                    options: {
+                        $: 'jqeury'
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+**plugins**
+
+* providePlugin
+* 作用: 全局import/require设置
+
+```
+// npm 安装的模块
+// webpack.config.js
+plugins: [
+    // ...
+    new webpack.providePlugin({
+        $: 'jquery' // key代表被赋值的变量, value代表需引用的第三方模块
+    })
+]
 ```
 
 ```
+// 本地第三个库
+// webpack.config.js
+resolve: {
+    alias: { // 作用webpack打包文件时,指定引用路径别名
+        jquery$: path.resolve(__dirname, 'src/libs/jquery')
+        // key值带$进行精确的文件匹配
+    }
+},
+plugins: [
+    // ....
+    new webpack.providePlugin({
+        $: 'jquery' // key代表被赋值的变量, value代表需引用的第三方模块/相对路径
+    })
+]
+```
+

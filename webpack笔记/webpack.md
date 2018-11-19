@@ -205,6 +205,9 @@ module:{
     rules:[
         {
             loader: ''
+        },
+        {
+            loader: ''
         }
     ]
 }

@@ -189,25 +189,116 @@ module: {
 ## 文件处理
 > 图片处理
 
+**postcss-loader**
+* 注意: 可配合url-loader/img-loader使用,进行图片转换与图片压缩
+* 作用: 合成雪碧图/兼容等等
+* 使用雪碧图时,需将引用的图片文件更名为 [name]@2x.[ext]形式
+```
+// webpack.config.js
+module: {
+    rules: [
+        // ....
+        {
+            loader: 'postcss-loader',
+            options: {
+                ident: 'postcss',
+                plugins: [
+                    require('postcss-sprites')({ // 合成雪碧图
+                        spritePath: 'dist/assets/imgs/sprites', // 雪碧图输出路径
+                        retina: true // 是否合成@2x图
+                    }),
+                    require('postcss-cssnext')()
+                ]
+            }
+        }
+        // ....
+    ]
+}
+```
+
+
 **file-loader**
 * 作用: 读取文件
 
 ```
+// webpack.config.js
+module: {
+    rules: [
+        // ...
+        {
+            test: /\.(png|jpg|jpeg|gif)$/,
+            use: [
+                {
+                    loader: 'file-loader',
+                    options: {
+                        publicPath: '', // 绝对路径
+                        outputPath: 'dist/', // 输出路径
+                        useRelativePath: true // 使用相对路径
+                    }
+                }
+            ]
+        }
+    ]
+}
 
 ```
 
 **url-loader**
-* 作用: 压缩base64
+* 作用: 压缩图片转化为base64,不转化为base64时,直接提取文件
 
 ```
 // webpack.config.js
-module:{
-    rules:[
+module: {
+    rules: [
+        // ...
         {
-            loader: ''
-        },
+            test: /\.(png|jpg|jpeg|gif)$/,
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {
+                        name: '[name]-[hash:5].[ext]', // 定义文件名与扩展
+                        publicPath: '', // 绝对路径
+                        outputPath: 'dist/', // 输出路径
+                        useRelativePath: true // 使用相对路径
+                        limit: 100000 // 小于10KB,转化为base64
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+**img-loader**
+* 作用: 图片处理loader, 图片压缩, 合成雪碧图
+
+```
+// webpack.config.js
+module: {
+    rules: [
+        // ...
         {
-            loader: ''
+            test: /\.(png|jpg|jpeg|gif)$/,
+            use: [
+                {
+                    loader: 'url-loader',
+                    options: {
+                        publicPath: '', // 绝对路径
+                        outputPath: 'dist/', // 输出路径
+                        useRelativePath: true // 使用相对路径
+                        limit: 100000 // 小于10KB,转化为base64
+                    }
+                },
+                {
+                    loader: 'img-loader',
+                    options: {
+                        pngquant: {
+                            quality: 80 // 质量
+                        }
+                    }
+                }
+            ]
         }
     ]
 }

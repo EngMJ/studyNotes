@@ -390,3 +390,92 @@ plugins: [
 ]
 ```
 
+## HTML文件处理
+
+**plugins**
+* HtmlWebpackPlugin
+```
+var HtmlWebpackPlugin = require('HtmlWebpackPlugin')
+// webpack.config.js
+/*
+* @options
+*   template 模板文件路径
+*   filename 文件名
+*   minify 压缩
+*   chunks 入口
+*   inject 是否将CSS/JS插入对应标签
+**/
+plugins: [
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: './index.html', // 模板路径
+        chunks: ['app'], // 不指定入口chunks,则引用enthy中所有的内容
+        minify: {
+            collapseWhitesoace: true // 压缩HTML文件,去除换行符
+        }
+    })
+]
+```
+**loader**
+* html-loader
+* 作用: HTML中引入图片
+
+```
+module: {
+    rules: [
+        // ....
+        {
+            test: /\.html$/,
+            use: [
+                {
+                    loader: 'html-loader',
+                    options: {
+                        attrs: ['img:src', 'img:data-src'] // 处理['标签:属性']对应的资源
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
+## HTML配合优化
+**loader**
+
+**plugins**
+
+* html-webpack-inline-chunk-plugin
+* 作用: 将webpack设置嵌入html页面script标签中
+```
+// webpack.config.js
+var htmlInlineChunkPlugin = require('html-webpack-inline-chunk-plugin')
+// ....
+module: {
+    rules: [
+        {
+            test: /.\js$/,
+            use: [
+                {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['env']
+                    }
+                }
+            ]
+        }
+        // ....
+    ]
+},
+plugins: [
+    // ...
+    new webpack.optimize.commonsChunkPlugins({
+        name: 'common',
+
+    }),
+    new htmlInlineChunkPlugin({
+        inlineChunks: ['common'] // 引用指定的chunk
+    })
+    // ...
+]
+
+```

@@ -478,6 +478,10 @@ plugins: [
 
     // ...
 ]
-
-
 ```
+
+## 功能
+> plugins
+
+**清除文件**
+* clean-webpack-plugin

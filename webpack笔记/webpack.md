@@ -475,7 +475,6 @@ plugins: [
     new htmlInlineChunkPlugin({
         inlineChunks: ['common'] // 引用指定的chunk
     })
-
     // ...
 ]
 ```
